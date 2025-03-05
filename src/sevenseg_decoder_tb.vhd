@@ -2,7 +2,7 @@
 -- Company: 
 -- Engineer: 
 -- 
--- Create Date: 02/25/2025 03:57:55 PM
+-- Create Date: 03/05/2025 09:20:41 AM
 -- Design Name: 
 -- Module Name: sevenseg_decoder_tb - Behavioral
 -- Project Name: 
@@ -37,52 +37,85 @@ entity sevenseg_decoder_tb is
 end sevenseg_decoder_tb;
 
 architecture Behavioral of sevenseg_decoder_tb is
-
-    component sevenseg_decoder
-        port (
-            i_Hex : in STD_LOGIC_VECTOR(3 downto 0);
-            o_seg_n : out STD_LOGIC_VECTOR(6 downto 0)
+    component sevenseg_decoder is
+        port( 
+        i_Hex : in std_logic_vector (3 downto 0);
+        o_seg_n : out std_logic_vector (6 downto 0)
         );
     end component;
-    
-    signal w_i_Hex : STD_LOGIC_VECTOR(3 downto 0);
-    signal w_o_seg_n : STD_LOGIC_VECTOR(6 downto 0)
-    
-begin
+           
+    signal wi_Hex   : std_logic_vector(3 downto  0);
+    signal wo_seg_n : std_logic_vector(6 downto  0);
 
-    -- Port map the UUT to the signals
-    uut: sevenseg_decoder port map (
-           i_Hex(3) => w_i_Hex(3),
-	       i_Hex(2) => w_i_Hex(2),
-	       i_Hex(1) => w_i_Hex(1),
-	       i_Hex(0) => w_i_Hex(0),
-	       o_seg_n(6) => w_o_seg_n(6),
-	       o_seg_n(5) => w_o_seg_n(5),
-	       o_seg_n(4) => w_o_seg_n(4),
-	       o_seg_n(3) => w_o_seg_n(3),
-	       o_seg_n(2) => w_o_seg_n(2),
-	       o_seg_n(1) => w_o_seg_n(1),
-	       o_seg_n(0) => w_o_seg_n(0)
+
+begin
+    sevenseg_decoder_inst : sevenseg_decoder port map (
+    i_Hex(3) => wi_Hex(3),
+    i_Hex(2) => wi_Hex(2),
+    i_Hex(1) => wi_Hex(1),
+    i_Hex(0) => wi_Hex(0),
+    o_seg_n(6) => wo_seg_n(6),
+    o_seg_n(5) => wo_seg_n(5),
+    o_seg_n(4) => wo_seg_n(4),
+    o_seg_n(3) => wo_seg_n(3),
+    o_seg_n(2) => wo_seg_n(2),
+    o_seg_n(1) => wo_seg_n(1),
+    o_seg_n(0) => wo_seg_n(0)
+    
     );
 
-    -- Test Process
     test_process : process
     begin
-        -- Apply test vectors to w_i_Hex
-        w_i_Hex <= "0000"; wait for 10 ns;  -- Test 0x0
-        -- Check output for each case
-        assert (w_o_seg_n = "expected_value") report "Test failed for 0x0" severity failure;
+    
+        wi_Hex  <= x"0"; wait for 10 ns;
+        assert wo_seg_n = "0111111" report "error on x0" severity failure;
         
-        w_i_Hex <= "0001"; wait for 10 ns;  -- Test 0x1
-        assert (w_o_seg_n = "expected_value") report "Test failed for 0x1" severity failure;
+        wi_Hex  <= x"1"; wait for 10 ns;
+        assert wo_seg_n = "0000110" report "error on x1" severity failure;
         
-        w_i_Hex <= "0010"; wait for 10 ns;  -- Test 0x2
-        assert (w_o_seg_n = "expected_value") report "Test failed for 0x2" severity failure;
+        wi_Hex  <= x"2"; wait for 10 ns;
+        assert wo_seg_n = "1011011" report "error on x2" severity failure;
         
-        -- Add more test cases as needed
+        wi_Hex  <= x"3"; wait for 10 ns;
+        assert wo_seg_n = "1001111" report "error on x3" severity failure;
         
-        wait; -- End simulation
+        wi_Hex  <= x"4"; wait for 10 ns;
+        assert wo_seg_n = "1100110" report "error on x4" severity failure;
+        
+        wi_Hex  <= x"5"; wait for 10 ns;
+        assert wo_seg_n = "1101101" report "error on x5" severity failure;
+        
+        wi_Hex  <= x"6"; wait for 10 ns;
+        assert wo_seg_n = "1111101" report "error on x6" severity failure;
+        
+        wi_Hex  <= x"7"; wait for 10 ns;
+        assert wo_seg_n = "0000111" report "error on x7" severity failure;
+        
+        wi_Hex  <= x"8"; wait for 10 ns;
+        assert wo_seg_n = "1111111" report "error on x8" severity failure;
+        
+        wi_Hex  <= x"9"; wait for 10 ns;
+        assert wo_seg_n = "1101111" report "error on x9" severity failure;
+        
+        wi_Hex  <= x"A"; wait for 10 ns;
+        assert wo_seg_n = "1110111" report "error on xA" severity failure;
+        
+        wi_Hex  <= x"B"; wait for 10 ns;
+        assert wo_seg_n = "1111100" report "error on xB" severity failure;
+        
+        wi_Hex  <= x"C"; wait for 10 ns;
+        assert wo_seg_n = "0111001" report "error on xC" severity failure;
+        
+        wi_Hex  <= x"D"; wait for 10 ns;
+        assert wo_seg_n = "1011110" report "error on xD" severity failure;
+        
+        wi_Hex  <= x"E"; wait for 10 ns;
+        assert wo_seg_n = "1001111" report "error on xE" severity failure;
+        
+        wi_Hex  <= x"F"; wait for 10 ns;
+        assert wo_seg_n = "0111000" report "error on xF" severity failure;
+        
+        wait;
     end process;
-
 
 end Behavioral;
