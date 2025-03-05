@@ -112,5 +112,5 @@ begin
 	an(1) <= '1';
 	an(2) <= '1';
 	an(3) <= '1';
-	seg <= not w_seg_n;
+	seg <= w_seg_n;
 end top_basys3_arch;
